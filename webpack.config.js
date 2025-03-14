@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: './src/index.ts',
   devtool: 'source-map',
-  target: 'node',
+  target: 'web',
   module: {
     rules: [
       {
@@ -21,17 +21,20 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
+
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
-  plugins: [new HtmlWebpackPlugin({
-    title: 'GE Empty Template',
-    template: path.join(process.cwd(), 'src/index.html'),
-    filename: 'index.html',
-  })],
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: 'GE Empty Template',
+      template: path.join(process.cwd(), 'src/index.html'),
+      filename: 'index.html',
+    }),
+  ],
   devServer: {
     host: '0.0.0.0',
     port: '1234',
-  }
+  },
 };
