@@ -4,7 +4,7 @@ import { ClockModel } from './models/ClockModel';
 import { ClockView } from './views/ClockView';
 
 (function () {
-  const clockContainer = document.getElementById('digital-clock');
+  const clockContainer = document.getElementById('clock-digits-container');
   const editModeButton = document.getElementById('edit-mode-button');
   const increaseValueButton = document.getElementById('increase-value-button');
 

@@ -1,6 +1,6 @@
-import { Observable, Observer } from '../interfaces/IObserver';
+import { Observable } from '../interfaces/IObserver';
 
-enum EditMode {
+export enum EditMode {
   idle = 0,
   hours = 1,
   minutes = 2,
@@ -25,6 +25,10 @@ export class ClockModel extends Observable {
     this.notifyObservers();
   }
 
+  public getEditMode(): EditMode {
+    return this.editMode;
+  }
+
   public increaseValue(): void {
     if (this.editMode === EditMode.idle) {
       return;
@@ -39,7 +43,13 @@ export class ClockModel extends Observable {
     this.notifyObservers();
   }
 
-  public getTime(): string {
-    return `${this.hours}:${this.minutes}:${this.seconds};`;
+  public getHours(): number {
+    return this.hours;
+  }
+  public getMinutes(): number {
+    return this.minutes;
+  }
+  public getSeconds(): number {
+    return this.seconds;
   }
 }

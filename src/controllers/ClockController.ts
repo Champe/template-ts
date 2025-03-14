@@ -1,4 +1,4 @@
-import { ClockModel } from '../models/ClockModel';
+import { ClockModel, EditMode } from '../models/ClockModel';
 import { ClockView } from '../views/ClockView';
 
 export class ClockController {
@@ -15,7 +15,17 @@ export class ClockController {
     this.model.increaseValue();
   }
 
-  public getTime(): string {
-    return this.model.getTime();
+  public getEditMode(): EditMode {
+    return this.model.getEditMode();
+  }
+
+  public getHours(): number {
+    return this.model.getHours();
+  }
+  public getMinutes(): number {
+    return this.model.getMinutes();
+  }
+  public getSeconds(): number {
+    return this.model.getSeconds();
   }
 }
