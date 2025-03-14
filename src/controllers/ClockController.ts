@@ -5,6 +5,10 @@ export class ClockController {
   private model: ClockModel;
   constructor(model: ClockModel) {
     this.model = model;
+
+    setInterval(() => {
+      this.model.tick();
+    }, 1000);
   }
 
   public toggleEditMode(): void {
@@ -28,4 +32,8 @@ export class ClockController {
   public getSeconds(): number {
     return this.model.getSeconds();
   }
+
+  // public tick(): void {
+  //   this.model.tick();
+  // }
 }
