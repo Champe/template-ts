@@ -4,6 +4,7 @@ export enum EditMode {
   idle = 0,
   hours = 1,
   minutes = 2,
+  seconds = 3,
 }
 
 export class ClockModel extends Observable {
@@ -12,7 +13,7 @@ export class ClockModel extends Observable {
   private seconds: number;
   private editMode: EditMode = EditMode.idle;
 
-  constructor() {
+  constructor(private lightIsOn: boolean = false) {
     super();
     const now = new Date();
     this.hours = now.getHours();
@@ -27,6 +28,15 @@ export class ClockModel extends Observable {
 
   public getEditMode(): EditMode {
     return this.editMode;
+  }
+
+  public getLightIsOn(): boolean {
+    return this.lightIsOn;
+  }
+
+  public toggleLightState(): void {
+    this.lightIsOn = !this.lightIsOn;
+    this.notifyObservers();
   }
 
   public increaseValue(): void {
@@ -54,10 +64,6 @@ export class ClockModel extends Observable {
   }
 
   public tick(): void {
-    if (this.editMode !== EditMode.idle) {
-      return;
-    }
-
     this.seconds++;
     if (this.seconds >= 60) {
       this.seconds = 0;

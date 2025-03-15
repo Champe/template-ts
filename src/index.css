@@ -11,3 +11,13 @@ h1 {
 .blink {
     animation: blink 1s infinite;
 }
+
+.clock-button:hover {
+    cursor: pointer;
+    fill: aqua;
+}
+
+.clock-button:focus {
+    cursor: pointer;
+    fill: red;
+}

@@ -1,18 +1,28 @@
 import { ClockModel, EditMode } from '../models/ClockModel';
-import { ClockView } from '../views/ClockView';
 
 export class ClockController {
   private model: ClockModel;
   constructor(model: ClockModel) {
     this.model = model;
 
-    setInterval(() => {
-      this.model.tick();
-    }, 1000);
+    const now: number = Date.now();
+    const msToNextSecond: number = 1000 - (now % 1000);
+    setTimeout(
+      () => setInterval(() => this.model.tick(), 1000),
+      msToNextSecond
+    );
   }
 
   public toggleEditMode(): void {
     this.model.toggleEditMode();
+  }
+
+  public getLightIsOn(): boolean {
+    return this.model.getLightIsOn();
+  }
+
+  public toggleLightState(): void {
+    this.model.toggleLightState();
   }
 
   public increaseValue(): void {
@@ -26,14 +36,12 @@ export class ClockController {
   public getHours(): number {
     return this.model.getHours();
   }
+
   public getMinutes(): number {
     return this.model.getMinutes();
   }
+
   public getSeconds(): number {
     return this.model.getSeconds();
   }
-
-  // public tick(): void {
-  //   this.model.tick();
-  // }
 }

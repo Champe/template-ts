@@ -3,31 +3,45 @@ import { Observable, Observer } from '../interfaces/IObserver';
 import { EditMode } from '../models/ClockModel';
 
 export class ClockView implements Observer {
-  private digitalClockHours: HTMLElement;
-  private digitalClockMinutes: HTMLElement;
-  private digitalClockSecondes: HTMLElement;
-
   private editModeElementMap: Map<EditMode, HTMLElement | null>;
+  private hoursDisplay: HTMLElement;
+  private minutesDisplay: HTMLElement;
+  private secondsDisplay: HTMLElement;
+  private editModeButton: HTMLElement;
+  private lightSwitcherButton: HTMLElement;
+  private increaseValueButton: HTMLElement;
+  private clockDisplayDial: HTMLElement;
+
   constructor(
     private controller: ClockController,
-    private clockElement: HTMLElement,
-    private editModeButton: HTMLElement,
-    private increaseButton: HTMLElement
+    private clockSVGElement: HTMLElement
   ) {
-    this.digitalClockHours = this.clockElement.querySelector(
-      '#digital-clock-hours'
+    this.hoursDisplay = this.clockSVGElement.querySelector(
+      '.clock-hours-display'
     );
-    this.digitalClockMinutes = this.clockElement.querySelector(
-      '#digital-clock-minutes'
+    this.minutesDisplay = this.clockSVGElement.querySelector(
+      '.clock-minutes-display'
     );
-    this.digitalClockSecondes = this.clockElement.querySelector(
-      '#digital-clock-secondes'
+    this.secondsDisplay = this.clockSVGElement.querySelector(
+      '.clock-seconds-display'
+    );
+    this.editModeButton = this.clockSVGElement.querySelector(
+      '.clock-edit-mode-button'
+    );
+    this.lightSwitcherButton = this.clockSVGElement.querySelector(
+      '.light-switcher-button'
+    );
+    this.increaseValueButton = this.clockSVGElement.querySelector(
+      '.increase-value-button'
+    );
+    this.clockDisplayDial = this.clockSVGElement.querySelector(
+      '.clock-display-dial'
     );
 
     this.editModeElementMap = new Map<EditMode, HTMLElement | null>([
       [EditMode.idle, null],
-      [EditMode.hours, this.digitalClockHours],
-      [EditMode.minutes, this.digitalClockMinutes],
+      [EditMode.hours, this.hoursDisplay],
+      [EditMode.minutes, this.minutesDisplay],
     ]);
   }
 
@@ -40,27 +54,29 @@ export class ClockView implements Observer {
     this.editModeButton.addEventListener('click', () =>
       this.controller.toggleEditMode()
     );
-    this.increaseButton.addEventListener('click', () =>
+    this.increaseValueButton.addEventListener('click', () =>
       this.controller.increaseValue()
+    );
+    this.lightSwitcherButton.addEventListener('click', () =>
+      this.controller.toggleLightState()
     );
     this.render();
   }
 
   public render(): void {
-    this.clockElement.querySelector(
-      '#digital-clock-hours'
-    ).innerHTML = `${this.controller.getHours()}`;
-    this.clockElement.querySelector(
-      '#digital-clock-minutes'
-    ).innerHTML = `${this.controller.getMinutes()}`;
-    this.clockElement.querySelector(
-      '#digital-clock-secondes'
-    ).innerHTML = `${this.controller.getSeconds()}`;
+    this.hoursDisplay.innerHTML = this.padUnit(this.controller.getHours());
+    this.minutesDisplay.innerHTML = this.padUnit(this.controller.getMinutes());
+    this.secondsDisplay.innerHTML = this.padUnit(this.controller.getSeconds());
+
+    this.clockDisplayDial.setAttribute(
+      'fill',
+      this.controller.getLightIsOn() ? '#FBE106' : '#FFFFFF'
+    );
   }
 
   public setBlinker(): void {
-    this.digitalClockHours.classList.remove('blink');
-    this.digitalClockMinutes.classList.remove('blink');
+    this.hoursDisplay.classList.remove('blink');
+    this.minutesDisplay.classList.remove('blink');
     if (this.controller.getEditMode() === EditMode.idle) {
       return;
     }
@@ -73,10 +89,6 @@ export class ClockView implements Observer {
     }
   }
 
-  // public getTime(): String {
-  //   return this.controller.getTime();
-  // }
-
   public getHours(): number {
     return this.controller.getHours();
   }
@@ -85,5 +97,9 @@ export class ClockView implements Observer {
   }
   public getSeconds(): number {
     return this.controller.getSeconds();
+  }
+
+  private padUnit(unitValue: number) {
+    return unitValue.toString().padStart(2, '0');
   }
 }
