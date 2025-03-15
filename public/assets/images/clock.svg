@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="540" height="540" viewBox="0 0 540 540" xmlns="http://www.w3.org/2000/svg">
+    <!-- format switcher button -->
+    <!-- Located at the origin -->
+    <rect
+        class="clock-button clock-format-switcher-button"
+        x="510" 
+        y="219"
+        width="30"
+        height="70"
+        rx="5"
+        ry="5"
+        fill="gold"
+        stroke="black"
+        stroke-width="1"
+    />
+
+    <!-- Edit mode button -->
+    <!-- Located at pi/4 -->
+    <rect
+        class="clock-button clock-edit-mode-button"
+        x="400" 
+        y="47"
+        width="70"
+        height="30"
+        transform="rotate(45, 435, 62)"
+        rx="5"
+        ry="5"
+        fill="gold"
+        stroke="black"
+        stroke-width="1"
+    />
+    
+    <!-- Reset button -->
+    <!-- Located at 3pi/4 -->
+    <rect
+        class="clock-button clock-reset-button"
+        x="42"
+        y="47"
+        width="70"
+        height="30"
+        transform="rotate(-45, 77, 62)"
+        rx="5"
+        ry="5"
+        fill="gold"
+        stroke="black"
+        stroke-width="1"
+    />
+
+    <!-- Light switcher button -->
+    <!-- Located at 5pi/4 -->
+    <rect
+        class="clock-button light-switcher-button"
+        x="47" 
+        y="435"
+        width="70"
+        height="30"
+        transform="rotate(45, 77, 450)"
+        rx="5"
+        ry="5"
+        fill="gold"
+        stroke="black"
+        stroke-width="1"
+    />
+
+    <!-- Increase button -->
+    <!-- Located at 7pi/4 -->
+    <rect
+        class="clock-button increase-value-button"
+        x="400" 
+        y="435"
+        width="70"
+        height="30"
+        transform="rotate(-45, 435, 450)"
+        rx="5"
+        ry="5"
+        fill="gold"
+        stroke="black"
+        stroke-width="1"
+    />
+
+    <!-- Clock dial -->
+    <circle class="clock-dial" cx="256" cy="256" r="256" fill="purple" stroke="black" stroke-width="2"/>
+
+    <!-- Clock display dial -->
+    <rect
+        class="clock-display-dial"
+        x="81"
+        y="193.5"
+        width="350"
+        height="125"
+        rx="5"
+        ry="5"
+        fill="white"
+    />
+
+    <!-- Hours display -->
+    <text
+        class="clock-hours-display"
+        x="132"
+        y="280"
+        font-family="Arial"
+        font-size="64"
+        fill="black"
+    >00</text>
+    <text
+        x="205"
+        y="276"
+        font-family="Arial"
+        font-size="64"
+        fill="black"
+    >
+    :
+    </text>
+    <!-- Minutes display -->
+    <text
+        class="clock-minutes-display"
+        x="225"
+        y="280"
+        font-family="Arial"
+        font-size="64"
+        fill="black"
+    >00</text>
+    <text
+        x="298"
+        y="276"
+        font-family="Arial"
+        font-size="64"
+        fill="black"
+    >
+    :
+    </text>
+
+    <!-- Seconds display -->
+    <text
+        class="clock-seconds-display"
+        x="317"
+        y="280"
+        font-family="Arial"
+        font-size="64"
+        fill="black"
+    >
+    00
+    </text>
+</svg>
