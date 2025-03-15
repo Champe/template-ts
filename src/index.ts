@@ -1,20 +1,11 @@
 import { ClockController } from './controllers/ClockController';
+import { ClocksController } from './controllers/ClocksController';
 import './index.css';
-import { ClockModel } from './models/ClockModel';
-import { SVGService } from './service/SvgService';
-import { ClockView } from './views/ClockView';
+import { ClocksModel } from './models/ClocksModel';
+import { SVGService } from './services/SvgService';
 
 (async function () {
-  const svgClock: HTMLElement = await SVGService.loadLocalSVG(
-    'assets/images/clock.svg'
-  );
-
-  document.body.appendChild(svgClock);
-  const clockModel = new ClockModel();
-  const clockController = new ClockController(clockModel);
-  const clockView = new ClockView(clockController, svgClock);
-
-  clockModel.addObserver(clockView);
-
-  clockView.init();
+  await SVGService.initialize();
+  const clocksController = new ClocksController(new ClocksModel());
+  clocksController.addClock();
 })();

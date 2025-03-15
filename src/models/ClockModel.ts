@@ -7,14 +7,68 @@ export enum EditMode {
   seconds = 3,
 }
 
+export enum TimeFormat {
+  H24,
+  AM_PM,
+}
+
+export enum TimeZoneOffset {
+  UTC_MINUS_12 = -720,
+  UTC_MINUS_11 = -660,
+  UTC_MINUS_10 = -600,
+  UTC_MINUS_9_30 = -570,
+  UTC_MINUS_9 = -540,
+  UTC_MINUS_8 = -480,
+  UTC_MINUS_7 = -420,
+  UTC_MINUS_6 = -360,
+  UTC_MINUS_5 = -300,
+  UTC_MINUS_4_30 = -270,
+  UTC_MINUS_4 = -240,
+  UTC_MINUS_3_30 = -210,
+  UTC_MINUS_3 = -180,
+  UTC_MINUS_2 = -120,
+  UTC_MINUS_1 = -60,
+  UTC_0 = 0,
+  UTC_PLUS_1 = 60,
+  UTC_PLUS_2 = 120,
+  UTC_PLUS_3 = 180,
+  UTC_PLUS_3_30 = 210,
+  UTC_PLUS_4 = 240,
+  UTC_PLUS_4_30 = 270,
+  UTC_PLUS_5 = 300,
+  UTC_PLUS_5_30 = 330,
+  UTC_PLUS_5_45 = 345,
+  UTC_PLUS_6 = 360,
+  UTC_PLUS_6_30 = 390,
+  UTC_PLUS_7 = 420,
+  UTC_PLUS_8 = 480,
+  UTC_PLUS_8_45 = 525,
+  UTC_PLUS_9 = 540,
+  UTC_PLUS_9_30 = 570,
+  UTC_PLUS_10 = 600,
+  UTC_PLUS_10_30 = 630,
+  UTC_PLUS_11 = 660,
+  UTC_PLUS_12 = 720,
+  UTC_PLUS_12_45 = 765,
+  UTC_PLUS_13 = 780,
+  UTC_PLUS_14 = 840,
+}
+
 export class ClockModel extends Observable {
   private hours: number;
   private minutes: number;
   private seconds: number;
   private editMode: EditMode = EditMode.idle;
 
-  constructor(private lightIsOn: boolean = false) {
+  constructor(
+    private lightIsOn: boolean = false,
+    private timeZoneOffset: TimeZoneOffset = TimeZoneOffset.UTC_0
+  ) {
     super();
+    this.setToCurrentTime();
+  }
+
+  private setToCurrentTime(): void {
     const now = new Date();
     this.hours = now.getHours();
     this.minutes = now.getMinutes();
@@ -61,6 +115,11 @@ export class ClockModel extends Observable {
   }
   public getSeconds(): number {
     return this.seconds;
+  }
+
+  public reset(): void {
+    this.setToCurrentTime();
+    this.notifyObservers();
   }
 
   public tick(): void {

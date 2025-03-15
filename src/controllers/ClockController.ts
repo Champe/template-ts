@@ -1,10 +1,11 @@
 import { ClockModel, EditMode } from '../models/ClockModel';
+import { SVGService } from '../services/SvgService';
+import { ClockView } from '../views/ClockView';
 
 export class ClockController {
-  private model: ClockModel;
-  constructor(model: ClockModel) {
-    this.model = model;
-
+  private view: ClockView;
+  constructor(private model: ClockModel) {
+    this.initializeView();
     const now: number = Date.now();
     const msToNextSecond: number = 1000 - (now % 1000);
     setTimeout(
@@ -13,8 +14,22 @@ export class ClockController {
     );
   }
 
+  private initializeView(): void {
+    this.view = new ClockView(
+      this,
+      SVGService.getInstance().getClockSVGElement()
+    );
+    this.model.addObserver(this.view);
+    this.view.init();
+  }
+
+  public getEditMode(): EditMode {
+    return this.model.getEditMode();
+  }
+
   public toggleEditMode(): void {
     this.model.toggleEditMode();
+    this.view.setBlinker();
   }
 
   public getLightIsOn(): boolean {
@@ -29,10 +44,6 @@ export class ClockController {
     this.model.increaseValue();
   }
 
-  public getEditMode(): EditMode {
-    return this.model.getEditMode();
-  }
-
   public getHours(): number {
     return this.model.getHours();
   }
@@ -43,5 +54,16 @@ export class ClockController {
 
   public getSeconds(): number {
     return this.model.getSeconds();
+  }
+
+  public reset(): void {
+    this.model.reset();
+  }
+
+  public addEventListenerToRemoveButton(
+    type: keyof HTMLElementEventMap,
+    listener: EventListenerOrEventListenerObject
+  ): void {
+    this.view.addEventListenerToRemoveButton(type, listener);
   }
 }

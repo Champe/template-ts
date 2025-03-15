@@ -1,5 +1,5 @@
 export abstract class Observer {
-  abstract update(observable: Observable): void;
+  public abstract update(observable: Observable): void;
 }
 
 export class Observable {
