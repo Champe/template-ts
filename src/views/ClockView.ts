@@ -1,11 +1,12 @@
 import { ClockController } from '../controllers/ClockController';
 import { Observable, Observer } from '../interfaces/IObserver';
-import { EditMode, TimeFormat } from '../models/ClockModel';
+import { EditMode, TimeFormat, timeZoneOffsets } from '../models/ClockModel';
 
 export class ClockView implements Observer {
   private editModeElementMap: Map<EditMode, HTMLElement | null>;
   private clocksContainer: HTMLElement;
   private clockContainer: HTMLElement;
+  private timeZoneSelect: HTMLElement;
   private removeButton: HTMLElement;
   private hoursDisplay: HTMLElement;
   private minutesDisplay: HTMLElement;
@@ -24,6 +25,7 @@ export class ClockView implements Observer {
   ) {
     this.clocksContainer = document.body.querySelector('.clocks-container');
     this.clockContainer = this.createClockContainer();
+    this.timeZoneSelect = this.createTimeZoneSelect();
     this.removeButton = this.createRemoveButton();
     this.hoursDisplay = clockSVGElement.querySelector('.clock-hours-display');
     this.minutesDisplay = clockSVGElement.querySelector(
@@ -52,7 +54,12 @@ export class ClockView implements Observer {
       '.clock-display-dial'
     );
 
-    this.buildUpClock(this.clockContainer, this.removeButton, clockSVGElement);
+    this.buildUpClock(
+      this.clockContainer,
+      this.timeZoneSelect,
+      this.removeButton,
+      clockSVGElement
+    );
     this.editModeElementMap = new Map<EditMode, HTMLElement | null>([
       [EditMode.idle, null],
       [EditMode.hours, this.hoursDisplay],
@@ -71,6 +78,10 @@ export class ClockView implements Observer {
   }
 
   private addListeners(): void {
+    this.timeZoneSelect.addEventListener('change', (event) => {
+      const selectedValue = (event.currentTarget as HTMLSelectElement).value;
+      this.controller.setTimeZoneOffset(parseInt(selectedValue));
+    });
     this.timeFormatSwictherButton.addEventListener('click', () =>
       this.controller.toggleTimeFormat()
     );
@@ -143,6 +154,22 @@ export class ClockView implements Observer {
     return removeButton;
   }
 
+  private createTimeZoneSelect(): HTMLElement {
+    const select = document.createElement('select');
+    const localOffset = new Date().getTimezoneOffset();
+    timeZoneOffsets.forEach((currentOffset, timezone) => {
+      const option = document.createElement('option');
+      if (currentOffset === localOffset) {
+        option.setAttribute('selected', 'true');
+      }
+      option.setAttribute('value', `${currentOffset}`);
+      option.innerHTML = timezone;
+      select.appendChild(option);
+    });
+
+    return select;
+  }
+
   private createClockContainer(): HTMLElement {
     const clockContainer = document.createElement('div');
     clockContainer.classList.add('clock-container');
@@ -151,10 +178,12 @@ export class ClockView implements Observer {
 
   private buildUpClock(
     container: HTMLElement,
+    select: HTMLElement,
     removebutton: HTMLElement,
     svgClock: HTMLElement
   ) {
     container.appendChild(removebutton);
+    container.appendChild(select);
     container.appendChild(svgClock);
   }
 

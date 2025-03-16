@@ -61,6 +61,10 @@ export class ClockController {
     this.model.reset();
   }
 
+  public setTimeZoneOffset(timeZoneOffset: number): void {
+    this.model.setTimeZoneOffset(timeZoneOffset);
+  }
+
   public getTimeFormat(): TimeFormat {
     return this.model.getTimeFormat();
   }
