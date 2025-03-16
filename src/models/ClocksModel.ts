@@ -12,8 +12,10 @@ export class ClocksModel {
    * Adds a new clock to the collection.
    * A new ClockController instance is created, and an event listener is added to remove the clock when the remove button is clicked.
    */
-  public addClock(): void {
-    const newClockController = new ClockController(new ClockModel());
+  public addClock(timeZoneOffset?: number): void {
+    const newClockController = new ClockController(
+      new ClockModel(false, timeZoneOffset)
+    );
     this.clocks.push(newClockController);
     newClockController.addEventListenerToRemoveButton('click', () =>
       this.removeClock(newClockController)

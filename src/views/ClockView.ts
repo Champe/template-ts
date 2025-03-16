@@ -203,10 +203,9 @@ export class ClockView implements Observer {
    */
   private createTimeZoneSelect(): HTMLElement {
     const select = document.createElement('select');
-    const localOffset = new Date().getTimezoneOffset();
     timeZoneOffsets.forEach((currentOffset, timezone) => {
       const option = document.createElement('option');
-      if (currentOffset === localOffset) {
+      if (currentOffset === this.controller.getTimeZoneOffset()) {
         option.setAttribute('selected', 'true');
       }
       option.setAttribute('value', `${currentOffset}`);

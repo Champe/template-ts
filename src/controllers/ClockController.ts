@@ -119,6 +119,14 @@ export class ClockController {
   }
 
   /**
+   * Gets the time zone offset from the model.
+   * @returns {number} timeZoneOffset in minutes.
+   */
+  public getTimeZoneOffset(): number {
+    return this.model.getTimeZoneOffset();
+  }
+
+  /**
    * Toggles between 24-hour and 12-hour time formats in the model.
    */
   public toggleTimeFormat(): void {

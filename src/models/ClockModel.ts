@@ -72,9 +72,12 @@ export class ClockModel extends Observable {
    * Constructor to initialize the clock model.
    * @param lightIsOn (optional) Initial state of the light (true if on, false if off)
    */
-  constructor(private lightIsOn: boolean = false) {
+  constructor(private lightIsOn: boolean = false, timeZoneOffsets?: number) {
     super();
-    this.timeZoneOffset = new Date().getTimezoneOffset();
+    this.timeZoneOffset =
+      timeZoneOffsets !== undefined
+        ? timeZoneOffsets
+        : new Date().getTimezoneOffset();
     this.setToCurrentTime();
   }
 
@@ -185,6 +188,14 @@ export class ClockModel extends Observable {
   public toggleTimeFormat(): void {
     this.isH24Format = !this.isH24Format;
     this.notifyObservers();
+  }
+
+  /**
+   * gets the time zone offset.
+   * @returns {number} timeZoneOffset The new time zone offset in minutes.
+   */
+  public getTimeZoneOffset(): number {
+    return this.timeZoneOffset;
   }
 
   /**

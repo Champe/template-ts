@@ -32,8 +32,8 @@ export class ClocksController {
    * Adds a new clock to the model.
    * This method triggers the model to add a clock and will notify the view accordingly.
    */
-  public addClock(): void {
-    this.model.addClock();
+  public addClock(timeZoneOffset?: number): void {
+    this.model.addClock(timeZoneOffset);
   }
 
   /**
