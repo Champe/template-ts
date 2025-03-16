@@ -1,4 +1,4 @@
-import { ClockModel, EditMode } from '../models/ClockModel';
+import { ClockModel, EditMode, TimeFormat } from '../models/ClockModel';
 import { SVGService } from '../services/SvgService';
 import { ClockView } from '../views/ClockView';
 
@@ -58,6 +58,14 @@ export class ClockController {
 
   public reset(): void {
     this.model.reset();
+  }
+
+  public getTimeFormat(): TimeFormat {
+    return this.model.getTimeFormat();
+  }
+
+  public toggleTimeFormat(): void {
+    return this.model.toggleTimeFormat();
   }
 
   public addEventListenerToRemoveButton(

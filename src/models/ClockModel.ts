@@ -59,6 +59,7 @@ export class ClockModel extends Observable {
   private minutes: number;
   private seconds: number;
   private editMode: EditMode = EditMode.idle;
+  private timeFormat: TimeFormat = TimeFormat.H24;
 
   constructor(
     private lightIsOn: boolean = false,
@@ -119,6 +120,16 @@ export class ClockModel extends Observable {
 
   public reset(): void {
     this.setToCurrentTime();
+    this.notifyObservers();
+  }
+
+  public getTimeFormat(): TimeFormat {
+    return this.timeFormat;
+  }
+
+  public toggleTimeFormat(): void {
+    this.timeFormat =
+      this.timeFormat === TimeFormat.AM_PM ? TimeFormat.H24 : TimeFormat.AM_PM;
     this.notifyObservers();
   }
 

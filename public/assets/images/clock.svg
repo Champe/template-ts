@@ -3,7 +3,7 @@
     <!-- format switcher button -->
     <!-- Located at the origin -->
     <rect
-        class="clock-button clock-format-switcher-button"
+        class="clock-button clock-time_format-switcher-button"
         x="510" 
         y="219"
         width="30"
@@ -141,5 +141,16 @@
         fill="black"
     >
     00
+    </text>
+
+    <!-- AM/PM indicator -->
+    <text
+        class="clock-time_fomat-indicator-display"
+        x="375"
+        y="310"
+        font-family="Arial"
+        font-size="32"
+        fill="black"
+    >
     </text>
 </svg>

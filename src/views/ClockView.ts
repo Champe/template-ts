@@ -1,6 +1,6 @@
 import { ClockController } from '../controllers/ClockController';
 import { Observable, Observer } from '../interfaces/IObserver';
-import { EditMode } from '../models/ClockModel';
+import { EditMode, TimeFormat } from '../models/ClockModel';
 
 export class ClockView implements Observer {
   private editModeElementMap: Map<EditMode, HTMLElement | null>;
@@ -10,6 +10,8 @@ export class ClockView implements Observer {
   private hoursDisplay: HTMLElement;
   private minutesDisplay: HTMLElement;
   private secondsDisplay: HTMLElement;
+  private timeFormatIndicatorDisplay: HTMLElement;
+  private timeFormatSwictherButton: HTMLElement;
   private editModeButton: HTMLElement;
   private resetButton: HTMLElement;
   private lightSwitcherButton: HTMLElement;
@@ -30,10 +32,16 @@ export class ClockView implements Observer {
     this.secondsDisplay = clockSVGElement.querySelector(
       '.clock-seconds-display'
     );
-    this.resetButton = clockSVGElement.querySelector('.clock-reset-button');
+    this.timeFormatIndicatorDisplay = clockSVGElement.querySelector(
+      '.clock-time_fomat-indicator-display'
+    );
+    this.timeFormatSwictherButton = clockSVGElement.querySelector(
+      '.clock-time_format-switcher-button'
+    );
     this.editModeButton = clockSVGElement.querySelector(
       '.clock-edit-mode-button'
     );
+    this.resetButton = clockSVGElement.querySelector('.clock-reset-button');
     this.lightSwitcherButton = clockSVGElement.querySelector(
       '.light-switcher-button'
     );
@@ -63,6 +71,9 @@ export class ClockView implements Observer {
   }
 
   private addListeners(): void {
+    this.timeFormatSwictherButton.addEventListener('click', () =>
+      this.controller.toggleTimeFormat()
+    );
     this.editModeButton.addEventListener('click', () =>
       this.controller.toggleEditMode()
     );
@@ -77,17 +88,26 @@ export class ClockView implements Observer {
   }
 
   private render(): void {
+    this.renderTime();
+    this.renderDisplayDial();
+    this.renderTimeFormatIndicatorDisplay();
+    this.renderBlinker();
+  }
+
+  private renderTime(): void {
     this.hoursDisplay.innerHTML = this.padUnit(this.controller.getHours());
     this.minutesDisplay.innerHTML = this.padUnit(this.controller.getMinutes());
     this.secondsDisplay.innerHTML = this.padUnit(this.controller.getSeconds());
+  }
 
+  private renderDisplayDial(): void {
     this.clockDisplayDial.setAttribute(
       'fill',
       this.controller.getLightIsOn() ? '#FBE106' : '#FFFFFF'
     );
   }
 
-  public setBlinker(): void {
+  private renderBlinker(): void {
     this.hoursDisplay.classList.remove('blink');
     this.minutesDisplay.classList.remove('blink');
     if (this.controller.getEditMode() === EditMode.idle) {
@@ -101,6 +121,12 @@ export class ClockView implements Observer {
       elementToBlink.classList.add('blink');
     }
   }
+
+  private renderTimeFormatIndicatorDisplay(): void {
+    this.timeFormatIndicatorDisplay.textContent = this.getTimeFormatIndicator();
+  }
+
+  public setBlinker(): void {}
 
   private padUnit(unitValue: number) {
     return unitValue.toString().padStart(2, '0');
@@ -134,6 +160,15 @@ export class ClockView implements Observer {
 
   private removeFromDOM(): void {
     this.clockContainer.remove();
+  }
+
+  private getTimeFormatIndicator(): string {
+    const timeFormat: TimeFormat = this.controller.getTimeFormat();
+    if (timeFormat === TimeFormat.H24) {
+      return '';
+    }
+
+    return this.controller.getHours() < 12 ? 'AM' : 'PM';
   }
 
   public addEventListenerToRemoveButton(
