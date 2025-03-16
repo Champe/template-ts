@@ -3,11 +3,7 @@
  * Observers should implement the `update` method to respond to changes in an Observable.
  */
 export abstract class Observer {
-  /**
-   * This method is called when the Observable notifies its observers of a change.
-   * @param observable The Observable instance that has triggered the update.
-   */
-  public abstract update(observable: Observable): void;
+  public abstract update(): void;
 }
 
 /**
@@ -30,11 +26,14 @@ export class Observable {
    * @param observer The Observer instance to remove.
    * @returns The removed Observer instance, or null if not found.
    */
-  public removeObserver(observer: Observer): Observer | null {
+  public removeObserver(observer: Observer): void {
     const index: number = this.observers.findIndex(
       (_observer) => _observer === observer
     );
-    return index == -1 ? null : this.observers.splice(index, 1)[0];
+    if (index === -1) {
+      return;
+    }
+    this.observers.splice(index, 1);
   }
 
   /**
@@ -43,7 +42,7 @@ export class Observable {
    */
   public notifyObservers(): void {
     for (const observer of this.observers) {
-      observer.update(this);
+      observer.update();
     }
   }
 }

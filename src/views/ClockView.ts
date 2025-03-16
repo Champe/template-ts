@@ -1,5 +1,5 @@
 import { ClockController } from '../controllers/ClockController';
-import { Observable, Observer } from '../core/Observer';
+import { Observer } from '../core/Observer';
 import { EditMode, timeZoneOffsets } from '../models/ClockModel';
 
 /**
@@ -89,7 +89,7 @@ export class ClockView implements Observer {
    * Updates the view when the observable (model) is updated.
    * @param observable The observable that has been updated (in this case, the ClockModel).
    */
-  public update(observable: Observable): void {
+  public update(): void {
     this.render();
   }
 

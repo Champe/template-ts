@@ -3,13 +3,15 @@ import { SVGService } from '../services/SvgService';
 import { TimeTickerService } from '../services/TimeTickerService';
 import { ClockView } from '../views/ClockView';
 
+type VoidCallback = () => void;
+
 /**
  * Controller for managing the clock's model, view, and interactions with the time ticker service.
  * This class handles user actions, updates the view, and manages the time-ticking behavior.
  */
 export class ClockController {
   private view: ClockView;
-  private timeTickerListener: () => void;
+  private timeTickerListener: VoidCallback;
 
   /**
    * Constructor to initialize the ClockController.
