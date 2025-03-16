@@ -1,5 +1,5 @@
 import { ClockController } from '../controllers/ClockController';
-import { Observable } from '../interfaces/IObserver';
+import { Observable } from '../core/Observer';
 import { ClockModel } from './ClockModel';
 
 export class ClocksModel extends Observable {

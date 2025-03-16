@@ -1,6 +1,6 @@
 import { ClockController } from '../controllers/ClockController';
-import { Observable, Observer } from '../interfaces/IObserver';
-import { EditMode, TimeFormat, timeZoneOffsets } from '../models/ClockModel';
+import { Observable, Observer } from '../core/Observer';
+import { EditMode, timeZoneOffsets } from '../models/ClockModel';
 
 export class ClockView implements Observer {
   private editModeElementMap: Map<EditMode, HTMLElement | null>;
@@ -109,7 +109,7 @@ export class ClockView implements Observer {
     let hours: number = this.controller.getHours();
 
     // Convert from H24 to AM/PM format if clock is in AM/PM mode and it's afternoon
-    if (this.controller.getTimeFormat() === TimeFormat.AM_PM && hours > 12) {
+    if (!this.controller.getIsH24Format() && hours > 12) {
       hours = hours % 12;
     }
     this.hoursDisplay.innerHTML = this.padUnit(hours);
@@ -196,8 +196,8 @@ export class ClockView implements Observer {
   }
 
   private getTimeFormatIndicator(): string {
-    const timeFormat: TimeFormat = this.controller.getTimeFormat();
-    if (timeFormat === TimeFormat.H24) {
+    const isH24Format: boolean = this.controller.getIsH24Format();
+    if (isH24Format) {
       return '';
     }
 

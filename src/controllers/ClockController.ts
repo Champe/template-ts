@@ -1,4 +1,4 @@
-import { ClockModel, EditMode, TimeFormat } from '../models/ClockModel';
+import { ClockModel, EditMode } from '../models/ClockModel';
 import { SVGService } from '../services/SvgService';
 import { TimeTickerService } from '../services/TimeTickerService';
 import { ClockView } from '../views/ClockView';
@@ -65,8 +65,8 @@ export class ClockController {
     this.model.setTimeZoneOffset(timeZoneOffset);
   }
 
-  public getTimeFormat(): TimeFormat {
-    return this.model.getTimeFormat();
+  public getIsH24Format(): boolean {
+    return this.model.getIsH24Format();
   }
 
   public toggleTimeFormat(): void {

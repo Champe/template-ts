@@ -1,5 +1,5 @@
 import { ClocksController } from '../controllers/ClocksController';
-import { Observable, Observer } from '../interfaces/IObserver';
+import { Observable, Observer } from '../core/Observer';
 
 export class ClocksView implements Observer {
   private addClockButton: HTMLElement;
