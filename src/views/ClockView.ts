@@ -2,6 +2,10 @@ import { ClockController } from '../controllers/ClockController';
 import { Observable, Observer } from '../core/Observer';
 import { EditMode, timeZoneOffsets } from '../models/ClockModel';
 
+/**
+ * View for rendering and interacting with the clock display.
+ * It listens for updates from the model and reflects those changes in the DOM.
+ */
 export class ClockView implements Observer {
   private editModeElementMap: Map<EditMode, HTMLElement | null>;
   private clocksContainer: HTMLElement;
@@ -19,6 +23,11 @@ export class ClockView implements Observer {
   private increaseValueButton: HTMLElement;
   private clockDisplayDial: HTMLElement;
 
+  /**
+   * Constructor to initialize the ClockView.
+   * @param controller The controller for managing the clock interactions.
+   * @param clockSVGElement The SVG element containing the clock's display elements.
+   */
   constructor(
     private controller: ClockController,
     clockSVGElement: HTMLElement
@@ -67,16 +76,26 @@ export class ClockView implements Observer {
     ]);
   }
 
-  public update(observable: Observable): void {
-    this.render();
-  }
-
-  public init() {
+  /**
+   * Initializes the view by appending it to the DOM and adding event listeners.
+   */
+  public init(): void {
     this.appendToDOM(this.clockContainer);
     this.addListeners();
     this.render();
   }
 
+  /**
+   * Updates the view when the observable (model) is updated.
+   * @param observable The observable that has been updated (in this case, the ClockModel).
+   */
+  public update(observable: Observable): void {
+    this.render();
+  }
+
+  /**
+   * Adds event listeners to the DOM elements.
+   */
   private addListeners(): void {
     this.timeZoneSelect.addEventListener('change', (event) => {
       const selectedValue = (event.currentTarget as HTMLSelectElement).value;
@@ -98,6 +117,9 @@ export class ClockView implements Observer {
     this.removeButton.addEventListener('click', () => this.removeFromDOM());
   }
 
+  /**
+   * Renders the clock's display elements based on the current state.
+   */
   private render(): void {
     this.renderTime();
     this.renderDisplayDial();
@@ -105,6 +127,9 @@ export class ClockView implements Observer {
     this.renderBlinker();
   }
 
+  /**
+   * Renders the time (hours, minutes, and seconds) on the clock.
+   */
   private renderTime(): void {
     let hours: number = this.controller.getHours();
 
@@ -117,6 +142,9 @@ export class ClockView implements Observer {
     this.secondsDisplay.innerHTML = this.padUnit(this.controller.getSeconds());
   }
 
+  /**
+   * Renders the clock's display dial (light color based on state).
+   */
   private renderDisplayDial(): void {
     this.clockDisplayDial.setAttribute(
       'fill',
@@ -124,6 +152,9 @@ export class ClockView implements Observer {
     );
   }
 
+  /**
+   * Renders the blinking effect for the active edit mode.
+   */
   private renderBlinker(): void {
     this.hoursDisplay.classList.remove('blink');
     this.minutesDisplay.classList.remove('blink');
@@ -139,14 +170,26 @@ export class ClockView implements Observer {
     }
   }
 
+  /**
+   * Renders the time format indicator (AM/PM or empty for 24-hour format).
+   */
   private renderTimeFormatIndicatorDisplay(): void {
     this.timeFormatIndicatorDisplay.textContent = this.getTimeFormatIndicator();
   }
 
-  private padUnit(unitValue: number) {
+  /**
+   * Pads a unit (e.g., hours, minutes, seconds) with a leading zero if needed.
+   * @param unitValue The value to be padded.
+   * @returns {string} The padded value as a string.
+   */
+  private padUnit(unitValue: number): string {
     return unitValue.toString().padStart(2, '0');
   }
 
+  /**
+   * Creates the remove button (X) for the clock.
+   * @returns {HTMLElement} The remove button element.
+   */
   private createRemoveButton(): HTMLElement {
     const removeButton = document.createElement('button');
     removeButton.innerHTML = 'X';
@@ -154,6 +197,10 @@ export class ClockView implements Observer {
     return removeButton;
   }
 
+  /**
+   * Creates the time zone select dropdown element.
+   * @returns {HTMLElement} The select element for time zones.
+   */
   private createTimeZoneSelect(): HTMLElement {
     const select = document.createElement('select');
     const localOffset = new Date().getTimezoneOffset();
@@ -170,31 +217,53 @@ export class ClockView implements Observer {
     return select;
   }
 
+  /**
+   * Creates the clock container element.
+   * @returns {HTMLElement} The container element for the clock.
+   */
   private createClockContainer(): HTMLElement {
     const clockContainer = document.createElement('div');
     clockContainer.classList.add('clock-container');
     return clockContainer;
   }
 
+  /**
+   * Builds the structure of the clock (container, select, remove button, and SVG).
+   * @param container The clock container element.
+   * @param select The time zone select element.
+   * @param removebutton The remove button element.
+   * @param svgClock The SVG element for the clock display.
+   */
   private buildUpClock(
     container: HTMLElement,
     select: HTMLElement,
     removebutton: HTMLElement,
     svgClock: HTMLElement
-  ) {
+  ): void {
     container.appendChild(removebutton);
     container.appendChild(select);
     container.appendChild(svgClock);
   }
 
+  /**
+   * Appends the clock container to the DOM.
+   * @param element The clock container element to append.
+   */
   private appendToDOM(element: HTMLElement): void {
     this.clocksContainer.appendChild(element);
   }
 
+  /**
+   * Removes the clock container from the DOM.
+   */
   private removeFromDOM(): void {
     this.clockContainer.remove();
   }
 
+  /**
+   * Gets the time format indicator string (AM/PM or empty for 24-hour format).
+   * @returns {string} The time format indicator.
+   */
   private getTimeFormatIndicator(): string {
     const isH24Format: boolean = this.controller.getIsH24Format();
     if (isH24Format) {
@@ -204,6 +273,11 @@ export class ClockView implements Observer {
     return this.controller.getHours() < 12 ? 'AM' : 'PM';
   }
 
+  /**
+   * Adds an event listener to the remove button for custom events.
+   * @param type The event type
+   * @param listener The event listener to attach to the remove button.
+   */
   public addEventListenerToRemoveButton(
     type: keyof HTMLElementEventMap,
     listener: EventListenerOrEventListenerObject
