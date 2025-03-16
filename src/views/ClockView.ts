@@ -95,7 +95,13 @@ export class ClockView implements Observer {
   }
 
   private renderTime(): void {
-    this.hoursDisplay.innerHTML = this.padUnit(this.controller.getHours());
+    let hours: number = this.controller.getHours();
+
+    // Convert from H24 to AM/PM format if clock is in AM/PM mode and it's afternoon
+    if (this.controller.getTimeFormat() === TimeFormat.AM_PM && hours > 12) {
+      hours = hours % 12;
+    }
+    this.hoursDisplay.innerHTML = this.padUnit(hours);
     this.minutesDisplay.innerHTML = this.padUnit(this.controller.getMinutes());
     this.secondsDisplay.innerHTML = this.padUnit(this.controller.getSeconds());
   }
@@ -125,8 +131,6 @@ export class ClockView implements Observer {
   private renderTimeFormatIndicatorDisplay(): void {
     this.timeFormatIndicatorDisplay.textContent = this.getTimeFormatIndicator();
   }
-
-  public setBlinker(): void {}
 
   private padUnit(unitValue: number) {
     return unitValue.toString().padStart(2, '0');

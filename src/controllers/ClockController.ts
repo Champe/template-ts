@@ -29,7 +29,6 @@ export class ClockController {
 
   public toggleEditMode(): void {
     this.model.toggleEditMode();
-    this.view.setBlinker();
   }
 
   public getLightIsOn(): boolean {
