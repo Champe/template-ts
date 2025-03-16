@@ -16,10 +16,10 @@ export class SVGService {
    * @returns SVGService instance.
    */
   public static getInstance(): SVGService {
-    if (!SVGService.instance) {
+    if (!this.instance) {
       throw new Error('SVGService must be initalized before using it');
     }
-    return SVGService.instance;
+    return this.instance;
   }
 
   /**

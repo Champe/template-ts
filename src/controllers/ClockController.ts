@@ -1,17 +1,19 @@
 import { ClockModel, EditMode, TimeFormat } from '../models/ClockModel';
 import { SVGService } from '../services/SvgService';
+import { TimeTickerService } from '../services/TimeTickerService';
 import { ClockView } from '../views/ClockView';
 
 export class ClockController {
   private view: ClockView;
+  private timeTickerListener: () => void;
   constructor(private model: ClockModel) {
     this.initializeView();
-    const now: number = Date.now();
-    const msToNextSecond: number = 1000 - (now % 1000);
-    setTimeout(
-      () => setInterval(() => this.model.tick(), 1000),
-      msToNextSecond
-    );
+    this.timeTickerListener = () => this.model.tick();
+    TimeTickerService.getInstance().subscribe(this.timeTickerListener);
+  }
+
+  public dispose(): void {
+    TimeTickerService.getInstance().unsubscribe(this.timeTickerListener);
   }
 
   private initializeView(): void {

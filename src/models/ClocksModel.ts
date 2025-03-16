@@ -17,7 +17,11 @@ export class ClocksModel extends Observable {
   public removeClock(clockController: ClockController): void {
     const index = this.clocks.findIndex((clock) => clock === clockController);
     if (index !== -1) {
-      this.clocks.splice(index, 1);
+      const removedClockController: ClockController = this.clocks.splice(
+        index,
+        1
+      )[0];
+      removedClockController.dispose();
     }
   }
 
