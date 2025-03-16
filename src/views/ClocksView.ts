@@ -1,7 +1,6 @@
 import { ClocksController } from '../controllers/ClocksController';
-import { Observable, Observer } from '../core/Observer';
 
-export class ClocksView implements Observer {
+export class ClocksView {
   private addClockButton: HTMLElement;
   constructor(
     private controller: ClocksController,
@@ -11,8 +10,6 @@ export class ClocksView implements Observer {
       '.add-new-clock-button'
     );
   }
-
-  update(observable: Observable): void {}
 
   public init() {
     this.addClockButton.addEventListener('click', () =>
