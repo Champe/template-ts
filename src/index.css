@@ -34,11 +34,13 @@
 .clock-container select {
     margin-top: 12px;
     margin-bottom: 12px;
+    pointer-events: none;
 }
 
 .clock-container svg {
     width: 100%;
     height: auto;
+    pointer-events: none;
 }
 
 
@@ -60,4 +62,10 @@
 
 .blink {
     animation: blink 1s infinite;
+}
+
+.dragged-over {
+    box-sizing: border-box;
+    border: 1px dashed black;
+    opacity: .5;
 }

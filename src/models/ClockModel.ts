@@ -65,8 +65,9 @@ export class ClockModel extends Observable {
   private minutes: number;
   private seconds: number;
   private editMode: EditMode = EditMode.idle;
-  private isH24Format: boolean;
+  private isH24Format: boolean = true;
   private timeZoneOffset: number;
+  private id: string;
 
   /**
    * Constructor to initialize the clock model.
@@ -74,11 +75,19 @@ export class ClockModel extends Observable {
    */
   constructor(private lightIsOn: boolean = false, timeZoneOffsets?: number) {
     super();
+    this.id = `${Date.now()}-${Math.random().toString().slice(2)}`;
     this.timeZoneOffset =
       timeZoneOffsets !== undefined
         ? timeZoneOffsets
         : new Date().getTimezoneOffset();
     this.setToCurrentTime();
+  }
+
+  /**
+   * Get the clock id.
+   */
+  public getId() {
+    return this.id;
   }
 
   /**

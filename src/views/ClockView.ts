@@ -74,6 +74,8 @@ export class ClockView implements Observer {
       [EditMode.hours, this.hoursDisplay],
       [EditMode.minutes, this.minutesDisplay],
     ]);
+
+    this.attachDragEvents();
   }
 
   /**
@@ -222,6 +224,10 @@ export class ClockView implements Observer {
    */
   private createClockContainer(): HTMLElement {
     const clockContainer = document.createElement('div');
+    clockContainer.setAttribute(
+      'id',
+      `clock-container-${this.controller.getId()}`
+    );
     clockContainer.classList.add('clock-container');
     return clockContainer;
   }
@@ -282,5 +288,132 @@ export class ClockView implements Observer {
     listener: EventListenerOrEventListenerObject
   ): void {
     this.removeButton.addEventListener(type, listener);
+  }
+
+  private attachDragEvents(): void {
+    this.clockContainer.setAttribute('draggable', 'true');
+    this.clockContainer.addEventListener(
+      'dragstart',
+      this.onDragStart.bind(this)
+    );
+    this.clockContainer.addEventListener(
+      'dragenter',
+      this.onDragEnter.bind(this)
+    );
+    this.clockContainer.addEventListener(
+      'dragover',
+      this.onDragOver.bind(this)
+    );
+    this.clockContainer.addEventListener(
+      'dragleave',
+      this.onDragLeave.bind(this)
+    );
+    this.clockContainer.addEventListener('drop', this.onDrop.bind(this));
+    this.clockContainer.addEventListener('dragend', this.onDragEnd.bind(this));
+  }
+
+  private onDragStart(event: DragEvent): void {
+    event.dataTransfer?.setData('text/plain', this.clockContainer.id);
+    this.clockContainer.classList.add('dragging');
+  }
+
+  private onDragEnter(event: DragEvent): void {
+    event.preventDefault();
+    const draggedElementId = event.dataTransfer?.getData('text/plain');
+    // Useless to handle drop if droping dragged clock at same place
+    if (
+      draggedElementId === undefined ||
+      draggedElementId === null ||
+      // this.clockContainer referes to clock where dragged clock is dropped
+      draggedElementId === this.clockContainer.id
+    ) {
+      return;
+    }
+
+    let target = event.target as HTMLElement;
+    target.classList.add('dragged-over');
+    // console.log('Over', (event.target as HTMLElement).id);
+    // if (
+    //   target &&
+    //   target.classList.contains('clock-container') &&
+    //   target.id != this.clockContainer.id
+    // ) {
+    //   this.swapTarget = target;
+    // }
+  }
+
+  private onDragOver(event: DragEvent): void {
+    event.preventDefault();
+  }
+
+  private onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    const draggedElementId = event.dataTransfer?.getData('text/plain');
+    // Useless to handle drop if droping dragged clock at same place
+    if (
+      draggedElementId === undefined ||
+      draggedElementId === null ||
+      // this.clockContainer referes to clock where dragged clock is dropped
+      draggedElementId === this.clockContainer.id
+    ) {
+      return;
+    }
+
+    let target = event.target as HTMLElement;
+    target.classList.remove('dragged-over');
+    // console.log('Over', (event.target as HTMLElement).id);
+    // if (
+    //   target &&
+    //   target.classList.contains('clock-container') &&
+    //   target.id != this.clockContainer.id
+    // ) {
+    //   this.swapTarget = target;
+    // }
+  }
+
+  private onDrop(event: DragEvent): void {
+    event.preventDefault();
+    const draggedElementId = event.dataTransfer?.getData('text/plain');
+    // Useless to handle drop if droping dragged clock at same place
+    if (
+      draggedElementId === undefined ||
+      draggedElementId === null ||
+      // this.clockContainer referes to clock where dragged clock is dropped
+      draggedElementId === this.clockContainer.id
+    ) {
+      return;
+    }
+
+    const clockContainerElements: Element[] = Array.from(
+      this.clocksContainer.children
+    );
+    const draggedElement: HTMLElement = this.clocksContainer.querySelector(
+      `#${draggedElementId}`
+    );
+    const draggedIndex: number = clockContainerElements.indexOf(draggedElement);
+    const droppedIndex: number = clockContainerElements.indexOf(
+      this.clockContainer
+    );
+
+    if (droppedIndex < 0 || draggedIndex < 0) {
+      return;
+    }
+
+    const droppedElement = clockContainerElements[droppedIndex];
+    // Swap elements position
+    const nextSibling = draggedElement.nextSibling;
+    const targetSibling =
+      droppedIndex < draggedIndex ? droppedElement : droppedElement.nextSibling;
+
+    // Swap the elements
+    this.clocksContainer.insertBefore(draggedElement, targetSibling);
+    this.clocksContainer.insertBefore(droppedElement, nextSibling);
+
+    // Remove target style
+    this.clockContainer.classList.remove('dragged-over');
+  }
+
+  private onDragEnd(): void {
+    this.clockContainer.classList.remove('dragging');
   }
 }

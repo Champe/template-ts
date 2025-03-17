@@ -3,15 +3,12 @@ import { SVGService } from '../services/SvgService';
 import { TimeTickerService } from '../services/TimeTickerService';
 import { ClockView } from '../views/ClockView';
 
-type VoidCallback = () => void;
-
 /**
  * Controller for managing the clock's model, view, and interactions with the time ticker service.
  * This class handles user actions, updates the view, and manages the time-ticking behavior.
  */
 export class ClockController {
   private view: ClockView;
-  private timeTickerListener: VoidCallback;
 
   /**
    * Constructor to initialize the ClockController.
@@ -19,8 +16,9 @@ export class ClockController {
    */
   constructor(private model: ClockModel) {
     this.initializeView();
-    this.timeTickerListener = () => this.model.tick();
-    TimeTickerService.getInstance().subscribe(this.timeTickerListener);
+    TimeTickerService.getInstance().subscribe(
+      this.timeTickerListener.bind(this)
+    );
   }
 
   /**
@@ -40,6 +38,17 @@ export class ClockController {
    */
   public dispose(): void {
     TimeTickerService.getInstance().unsubscribe(this.timeTickerListener); // Remove the time ticker listener
+  }
+
+  private timeTickerListener(): void {
+    this.model.tick();
+  }
+
+  /**
+   * Get the current id from the model.
+   */
+  public getId() {
+    return this.model.getId();
   }
 
   /**
