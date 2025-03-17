@@ -1,4 +1,5 @@
 import { ClockController } from '../controllers/ClockController';
+import { DigitalClockController } from '../controllers/DigitalClockController';
 import { ClockModel } from './ClockModel';
 
 /**
@@ -13,7 +14,7 @@ export class ClocksModel {
    * A new ClockController instance is created, and an event listener is added to remove the clock when the remove button is clicked.
    */
   public addClock(timeZoneOffset?: number): void {
-    const newClockController = new ClockController(
+    const newClockController = new DigitalClockController(
       new ClockModel(false, timeZoneOffset)
     );
     this.clocks.push(newClockController);
@@ -51,20 +52,24 @@ export class ClocksModel {
    * Reset all clocks
    */
   public resetAllClocks(): void {
-    this.clocks.forEach((clock) => clock.reset());
+    this.clocks.forEach((clock) => (clock as DigitalClockController).reset());
   }
 
   /**
    * Toggle all lights
    */
   public toggleAllLights(): void {
-    this.clocks.forEach((clock) => clock.toggleLightState());
+    this.clocks.forEach((clock) =>
+      (clock as DigitalClockController).toggleLightState()
+    );
   }
 
   /**
    * Reset all lights
    */
   public resetAllLights(): void {
-    this.clocks.forEach((clock) => clock.resetLightState());
+    this.clocks.forEach((clock) =>
+      (clock as DigitalClockController).resetLightState()
+    );
   }
 }

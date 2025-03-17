@@ -7,14 +7,14 @@ import { ClockView } from '../views/ClockView';
  * Controller for managing the clock's model, view, and interactions with the time ticker service.
  * This class handles user actions, updates the view, and manages the time-ticking behavior.
  */
-export class ClockController {
-  private view: ClockView;
+export abstract class ClockController {
+  protected abstract view: ClockView;
 
   /**
    * Constructor to initialize the ClockController.
    * @param model The clock model that stores the time data and logic.
    */
-  constructor(private model: ClockModel) {
+  constructor(protected model: ClockModel) {
     this.initializeView();
     TimeTickerService.getInstance().subscribe(
       this.timeTickerListener.bind(this)
@@ -24,25 +24,14 @@ export class ClockController {
   /**
    * Initializes the view and connects it to the clock model.
    */
-  private initializeView(): void {
-    this.view = new ClockView(
-      this,
-      SVGService.getInstance().getClockSVGElement()
-    );
-    this.model.addObserver(this.view);
-    this.view.init();
-  }
+  protected abstract initializeView(): void;
 
   /**
    * Unsubscribes from the time ticker service when the controller is disposed.
    */
-  public dispose(): void {
-    TimeTickerService.getInstance().unsubscribe(this.timeTickerListener); // Remove the time ticker listener
-  }
+  public abstract dispose(): void;
 
-  private timeTickerListener(): void {
-    this.model.tick();
-  }
+  protected abstract timeTickerListener(): void;
 
   /**
    * Get the current id from the model.
@@ -55,7 +44,7 @@ export class ClockController {
    * Gets the current hour from the model.
    * @returns {number} The current hour.
    */
-  public getHours(): number {
+  protected getHours(): number {
     return this.model.getHours();
   }
 
@@ -63,7 +52,7 @@ export class ClockController {
    * Gets the current minute from the model.
    * @returns {number} The current minute.
    */
-  public getMinutes(): number {
+  protected getMinutes(): number {
     return this.model.getMinutes();
   }
 
@@ -71,67 +60,8 @@ export class ClockController {
    * Gets the current second from the model.
    * @returns {number} The current second.
    */
-  public getSeconds(): number {
+  protected getSeconds(): number {
     return this.model.getSeconds();
-  }
-
-  /**
-   * Gets the current edit mode from the model.
-   * @returns {EditMode} The current edit mode.
-   */
-  public getEditMode(): EditMode {
-    return this.model.getEditMode();
-  }
-
-  /**
-   * Toggles the edit mode of the clock (e.g., between idle, editing hours, minutes, or seconds).
-   */
-  public toggleEditMode(): void {
-    this.model.toggleEditMode(); // Toggle the edit mode in the model
-  }
-
-  /**
-   * Gets the current light state from the model.
-   * @returns {boolean} True if the light is on, false if it is off.
-   */
-  public getLightIsOn(): boolean {
-    return this.model.getLightIsOn();
-  }
-
-  /**
-   * Toggles the light state of the clock (on/off).
-   */
-  public toggleLightState(): void {
-    this.model.toggleLightState();
-  }
-
-  /**
-   * Set the light state to off.
-   */
-  public resetLightState(): void {
-    this.model.resetLightState();
-  }
-
-  /**
-   * Increases the current value of the clock (hour, minute, or second) based on the edit mode.
-   */
-  public increaseValue(): void {
-    this.model.increaseValue();
-  }
-
-  /**
-   * Resets the clock to the current time.
-   */
-  public reset(): void {
-    this.model.reset();
-  }
-
-  /**
-   * Gets whether the clock is in 24-hour format.
-   * @returns {boolean} True if the clock is in 24-hour format, false if in 12-hour format.
-   */
-  public getIsH24Format(): boolean {
-    return this.model.getIsH24Format();
   }
 
   /**
@@ -140,13 +70,6 @@ export class ClockController {
    */
   public getTimeZoneOffset(): number {
     return this.model.getTimeZoneOffset();
-  }
-
-  /**
-   * Toggles between 24-hour and 12-hour time formats in the model.
-   */
-  public toggleTimeFormat(): void {
-    this.model.toggleTimeFormat();
   }
 
   /**
