@@ -1,6 +1,7 @@
+import { AnalogClockController } from '../controllers/AnalogClockController';
 import { ClockController } from '../controllers/ClockController';
 import { DigitalClockController } from '../controllers/DigitalClockController';
-import { ClockModel } from './ClockModel';
+import { ClockModel, ClockType } from './ClockModel';
 
 /**
  * Model for managing a collection of clocks.
@@ -13,10 +14,12 @@ export class ClocksModel {
    * Adds a new clock to the collection.
    * A new ClockController instance is created, and an event listener is added to remove the clock when the remove button is clicked.
    */
-  public addClock(timeZoneOffset?: number): void {
-    const newClockController = new DigitalClockController(
-      new ClockModel(false, timeZoneOffset)
-    );
+  public addClock(type: ClockType, timeZoneOffset?: number): void {
+    const model: ClockModel = new ClockModel(false, timeZoneOffset);
+    const newClockController =
+      type === ClockType.digital
+        ? new DigitalClockController(model)
+        : new AnalogClockController(model);
     this.clocks.push(newClockController);
     newClockController.addEventListenerToRemoveButton('click', () =>
       this.removeClock(newClockController)

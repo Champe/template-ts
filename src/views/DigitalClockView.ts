@@ -66,10 +66,6 @@ export class DigitalClockView extends ClockView implements Observer {
    * Adds event listeners to the DOM elements.
    */
   protected addListeners(): void {
-    this.timeZoneSelect.addEventListener('change', (event) => {
-      const selectedValue = (event.currentTarget as HTMLSelectElement).value;
-      this.controller.setTimeZoneOffset(parseInt(selectedValue));
-    });
     this.timeFormatSwictherButton.addEventListener('click', () =>
       this.controller.toggleTimeFormat()
     );
@@ -83,7 +79,6 @@ export class DigitalClockView extends ClockView implements Observer {
     this.lightSwitcherButton.addEventListener('click', () =>
       this.controller.toggleLightState()
     );
-    this.removeButton.addEventListener('click', () => this.removeFromDOM());
   }
 
   /**

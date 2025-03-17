@@ -1,11 +1,13 @@
 import { ClocksController } from '../controllers/ClocksController';
+import { ClockType } from '../models/ClockModel';
 
 /**
  * View class for managing the clocks section in the UI.
  * Handles user interactions and updates to display clock data.
  */
 export class ClocksView {
-  private addClockButton: HTMLElement;
+  private addDigitalClockButton: HTMLElement;
+  private addAnalogClockButton: HTMLElement;
   private resetAllClocksButton: HTMLElement;
   private toggleAllClockLightsButton: HTMLElement;
   private resetAllClockLightsButton: HTMLElement;
@@ -20,8 +22,11 @@ export class ClocksView {
     private clocksSection: HTMLElement
   ) {
     // Initialize the "Add Clock" button by selecting it from the provided clocksSection.
-    this.addClockButton = this.clocksSection.querySelector(
-      '.add-new-clock-button'
+    this.addDigitalClockButton = this.clocksSection.querySelector(
+      '.add-new-digital-clock-button'
+    );
+    this.addAnalogClockButton = this.clocksSection.querySelector(
+      '.add-new-analog-clock-button'
     );
     this.resetAllClocksButton = this.clocksSection.querySelector(
       '.reset-all-clocks-button'
@@ -38,8 +43,12 @@ export class ClocksView {
    * Initializes event listeners for user interactions, such as adding a new clock.
    */
   public init() {
-    this.addClockButton.addEventListener('click', () =>
-      this.controller.addClock()
+    this.addDigitalClockButton.addEventListener('click', () =>
+      this.controller.addClock(ClockType.digital)
+    );
+
+    this.addAnalogClockButton.addEventListener('click', () =>
+      this.controller.addClock(ClockType.analog)
     );
 
     this.resetAllClocksButton.addEventListener('click', () =>

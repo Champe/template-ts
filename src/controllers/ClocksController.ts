@@ -1,3 +1,4 @@
+import { ClockType } from '../models/ClockModel';
 import { ClocksModel } from '../models/ClocksModel';
 import { ClocksView } from '../views/ClocksView';
 import { ClockController } from './ClockController';
@@ -32,8 +33,8 @@ export class ClocksController {
    * Adds a new clock to the model.
    * This method triggers the model to add a clock and will notify the view accordingly.
    */
-  public addClock(timeZoneOffset?: number): void {
-    this.model.addClock(timeZoneOffset);
+  public addClock(type: ClockType, timeZoneOffset?: number): void {
+    this.model.addClock(type, timeZoneOffset);
   }
 
   /**

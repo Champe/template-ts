@@ -1,7 +1,8 @@
-import { ClockModel, EditMode } from '../models/ClockModel';
+import { ClockModel, ClockType, EditMode } from '../models/ClockModel';
 import { SVGService } from '../services/SvgService';
 import { TimeTickerService } from '../services/TimeTickerService';
 import { ClockView } from '../views/ClockView';
+import { DigitalClockController } from './DigitalClockController';
 
 /**
  * Controller for managing the clock's model, view, and interactions with the time ticker service.
@@ -44,7 +45,7 @@ export abstract class ClockController {
    * Gets the current hour from the model.
    * @returns {number} The current hour.
    */
-  protected getHours(): number {
+  public getHours(): number {
     return this.model.getHours();
   }
 
@@ -52,7 +53,7 @@ export abstract class ClockController {
    * Gets the current minute from the model.
    * @returns {number} The current minute.
    */
-  protected getMinutes(): number {
+  public getMinutes(): number {
     return this.model.getMinutes();
   }
 
@@ -60,7 +61,7 @@ export abstract class ClockController {
    * Gets the current second from the model.
    * @returns {number} The current second.
    */
-  protected getSeconds(): number {
+  public getSeconds(): number {
     return this.model.getSeconds();
   }
 

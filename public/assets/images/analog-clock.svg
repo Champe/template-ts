@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+    <!-- Clock dial -->
+    <circle class="clock-dial" cx="256" cy="256" r="256" fill="white" stroke="purple" stroke-width="2"/>
+
+    <line class="hours-handle" x1="256" y1="256" x2="256" y2="50" style="stroke: green; stroke-width: 3;"/>
+    <line class="minutes-handle"  x1="256" y1="256" x2="256" y2="30" style="stroke: purple; stroke-width: 3;"/>
+    <line class="seconds-handle" x1="256" y1="256" x2="256" y2="40" style="stroke: orange; stroke-width: 1;"/>
+</svg>

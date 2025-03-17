@@ -56,6 +56,11 @@ export const timeZoneOffsets = new Map<string, number>([
   ['GMT+14:00', 840],
 ]);
 
+export enum ClockType {
+  digital = 0,
+  analog = 1,
+}
+
 /**
  * Class representing the clock model.
  * This class extends Observable to notify observers when the clock state changes.
@@ -67,6 +72,7 @@ export class ClockModel extends Observable {
   private editMode: EditMode = EditMode.idle;
   private isH24Format: boolean = true;
   private timeZoneOffset: number;
+  private type: ClockType;
   private id: string;
 
   /**
@@ -224,6 +230,9 @@ export class ClockModel extends Observable {
    * @param {number} timeZoneOffset The new time zone offset in minutes.
    */
   public setTimeZoneOffset(timeZoneOffset: number): void {
+    if (this.timeZoneOffset === timeZoneOffset) {
+      return;
+    }
     this.timeZoneOffset = timeZoneOffset;
     this.setToCurrentTime();
     this.notifyObservers();

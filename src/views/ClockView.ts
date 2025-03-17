@@ -1,6 +1,6 @@
 import { ClockController } from '../controllers/ClockController';
 import { Observer } from '../core/Observer';
-import { EditMode, timeZoneOffsets } from '../models/ClockModel';
+import { ClockType, EditMode, timeZoneOffsets } from '../models/ClockModel';
 
 /**
  * View for rendering and interacting with the clock display.
@@ -49,6 +49,7 @@ export abstract class ClockView implements Observer {
    */
   public init(): void {
     this.attachDragEvents();
+    this.addCommonListeners();
     this.addListeners();
     this.appendToDOM(this.clockContainer);
     this.render();
@@ -60,6 +61,15 @@ export abstract class ClockView implements Observer {
    */
   public update(): void {
     this.render();
+  }
+
+  private addCommonListeners(): void {
+    this.timeZoneSelect.addEventListener('change', (event) => {
+      const selectedValue = (event.currentTarget as HTMLSelectElement).value;
+      this.controller.setTimeZoneOffset(parseInt(selectedValue));
+    });
+
+    this.removeButton.addEventListener('click', () => this.removeFromDOM());
   }
 
   /**
@@ -125,12 +135,13 @@ export abstract class ClockView implements Observer {
    */
   private buildUpClock(
     container: HTMLElement,
-    select: HTMLElement,
+    timeZoneSelect: HTMLElement,
     removebutton: HTMLElement,
     svgClock: HTMLElement
   ): void {
     container.appendChild(removebutton);
-    container.appendChild(select);
+    container.appendChild(timeZoneSelect);
+    // container.appendChild(typeSelect);
     container.appendChild(svgClock);
   }
 

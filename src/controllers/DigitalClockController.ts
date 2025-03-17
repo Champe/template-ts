@@ -22,7 +22,7 @@ export class DigitalClockController extends ClockController {
   protected initializeView(): void {
     this.view = new DigitalClockView(
       this,
-      SVGService.getInstance().getClockSVGElement()
+      SVGService.getInstance().getDigitalClockSVGElement()
     );
     this.model.addObserver(this.view);
     this.view.init();
@@ -37,37 +37,6 @@ export class DigitalClockController extends ClockController {
 
   protected timeTickerListener(): void {
     this.model.tick();
-  }
-
-  /**
-   * Get the current id from the model.
-   */
-  public getId() {
-    return this.model.getId();
-  }
-
-  /**
-   * Gets the current hour from the model.
-   * @returns {number} The current hour.
-   */
-  public getHours(): number {
-    return this.model.getHours();
-  }
-
-  /**
-   * Gets the current minute from the model.
-   * @returns {number} The current minute.
-   */
-  public getMinutes(): number {
-    return this.model.getMinutes();
-  }
-
-  /**
-   * Gets the current second from the model.
-   * @returns {number} The current second.
-   */
-  public getSeconds(): number {
-    return this.model.getSeconds();
   }
 
   /**
@@ -142,25 +111,5 @@ export class DigitalClockController extends ClockController {
    */
   public toggleTimeFormat(): void {
     this.model.toggleTimeFormat();
-  }
-
-  /**
-   * Sets the time zone offset for the clock model.
-   * @param {number} timeZoneOffset The time zone offset in minutes.
-   */
-  public setTimeZoneOffset(timeZoneOffset: number): void {
-    this.model.setTimeZoneOffset(timeZoneOffset);
-  }
-
-  /**
-   * Adds an event listener to the remove button in the view.
-   * @param type The event type (e.g., 'click').
-   * @param listener The event listener to attach to the remove button.
-   */
-  public addEventListenerToRemoveButton(
-    type: keyof HTMLElementEventMap,
-    listener: EventListenerOrEventListenerObject
-  ): void {
-    this.view.addEventListenerToRemoveButton(type, listener);
   }
 }

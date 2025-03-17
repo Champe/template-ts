@@ -7,17 +7,25 @@ export class SVGService {
 
   /**
    * Private constructor for the SVGService. Can only be called within the class.
-   * @param clockSVGElement The loaded SVG element for the clock.
+   * @param digitalClockSVGElement The loaded SVG element for the clock.
    */
-  private constructor(private clockSVGElement: HTMLElement) {}
+  private constructor(
+    private digitalClockSVGElement: HTMLElement,
+    private analogClockSVGElement: HTMLElement
+  ) {}
 
   /**
    * Constructs the SVGService by loading an SVG file from the provided path.
    * @returns A Promise that resolves to an SVGService instance.
    */
   private static async construct(): Promise<SVGService> {
-    const clockSVGElement = await this.loadLocalSVG('assets/images/clock.svg');
-    return new SVGService(clockSVGElement);
+    const digitalClockSVGElement = await this.loadLocalSVG(
+      'assets/images/digital-clock.svg'
+    );
+    const analogClockSVGElement = await this.loadLocalSVG(
+      'assets/images/analog-clock.svg'
+    );
+    return new SVGService(digitalClockSVGElement, analogClockSVGElement);
   }
 
   /**
@@ -60,10 +68,18 @@ export class SVGService {
   }
 
   /**
-   * Returns a clone of the clock SVG element.
+   * Returns a clone of the digital clock SVG element.
    * @returns A cloned copy of the clock SVG element.
    */
-  public getClockSVGElement(): HTMLElement | null {
-    return this.clockSVGElement.cloneNode(true) as HTMLElement;
+  public getDigitalClockSVGElement(): HTMLElement | null {
+    return this.digitalClockSVGElement.cloneNode(true) as HTMLElement;
+  }
+
+  /**
+   * Returns a clone of the analog clock SVG element.
+   * @returns A cloned copy of the clock SVG element.
+   */
+  public getAnalogClockSVGElement(): HTMLElement | null {
+    return this.analogClockSVGElement.cloneNode(true) as HTMLElement;
   }
 }
