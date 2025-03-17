@@ -166,6 +166,18 @@ export class ClockModel extends Observable {
   }
 
   /**
+   * Set the light state to off.
+   */
+  public resetLightState(): void {
+    // Don't notify observers if value is the same
+    if (!this.lightIsOn) {
+      return;
+    }
+    this.lightIsOn = false;
+    this.notifyObservers();
+  }
+
+  /**
    * Increases the current value (hour, minute, or second) depending on the edit mode.
    * Does nothing if the edit mode is idle.
    */

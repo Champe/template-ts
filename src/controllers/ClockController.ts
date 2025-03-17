@@ -106,6 +106,13 @@ export class ClockController {
   }
 
   /**
+   * Set the light state to off.
+   */
+  public resetLightState(): void {
+    this.model.resetLightState();
+  }
+
+  /**
    * Increases the current value of the clock (hour, minute, or second) based on the edit mode.
    */
   public increaseValue(): void {

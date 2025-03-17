@@ -46,4 +46,25 @@ export class ClocksModel {
   public getClocks(): ClockController[] {
     return this.clocks;
   }
+
+  /**
+   * Reset all clocks
+   */
+  public resetAllClocks(): void {
+    this.clocks.forEach((clock) => clock.reset());
+  }
+
+  /**
+   * Toggle all lights
+   */
+  public toggleAllLights(): void {
+    this.clocks.forEach((clock) => clock.toggleLightState());
+  }
+
+  /**
+   * Reset all lights
+   */
+  public resetAllLights(): void {
+    this.clocks.forEach((clock) => clock.resetLightState());
+  }
 }

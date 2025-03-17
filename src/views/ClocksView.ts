@@ -6,6 +6,9 @@ import { ClocksController } from '../controllers/ClocksController';
  */
 export class ClocksView {
   private addClockButton: HTMLElement;
+  private resetAllClocksButton: HTMLElement;
+  private toggleAllClockLightsButton: HTMLElement;
+  private resetAllClockLightsButton: HTMLElement;
 
   /**
    * Constructor for the ClocksView class.
@@ -20,15 +23,35 @@ export class ClocksView {
     this.addClockButton = this.clocksSection.querySelector(
       '.add-new-clock-button'
     );
+    this.resetAllClocksButton = this.clocksSection.querySelector(
+      '.reset-all-clocks-button'
+    );
+    this.toggleAllClockLightsButton = this.clocksSection.querySelector(
+      '.toggle-all-clock-lights-button'
+    );
+    this.resetAllClockLightsButton = this.clocksSection.querySelector(
+      '.reset-all-clock-lights-button'
+    );
   }
 
   /**
    * Initializes event listeners for user interactions, such as adding a new clock.
    */
   public init() {
-    // Add a click event listener to the "Add Clock" button, which triggers the controller to add a clock.
     this.addClockButton.addEventListener('click', () =>
       this.controller.addClock()
+    );
+
+    this.resetAllClocksButton.addEventListener('click', () =>
+      this.controller.resetAllClocks()
+    );
+
+    this.toggleAllClockLightsButton.addEventListener('click', () =>
+      this.controller.toggleAllLights()
+    );
+
+    this.resetAllClockLightsButton.addEventListener('click', () =>
+      this.controller.resetAllLights()
     );
   }
 }
