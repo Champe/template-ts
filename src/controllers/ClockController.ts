@@ -42,6 +42,13 @@ export abstract class ClockController {
   }
 
   /**
+   * Get the clock type.
+   */
+  public getType(): ClockType {
+    return this.model.getType();
+  }
+
+  /**
    * Gets the current hour from the model.
    * @returns {number} The current hour.
    */

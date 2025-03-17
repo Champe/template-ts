@@ -92,8 +92,15 @@ export class ClockModel extends Observable {
   /**
    * Get the clock id.
    */
-  public getId() {
+  public getId(): string {
     return this.id;
+  }
+
+  /**
+   * Get the clock type.
+   */
+  public getType(): ClockType {
+    return this.type;
   }
 
   /**

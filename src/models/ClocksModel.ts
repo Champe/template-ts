@@ -55,24 +55,35 @@ export class ClocksModel {
    * Reset all clocks
    */
   public resetAllClocks(): void {
-    this.clocks.forEach((clock) => (clock as DigitalClockController).reset());
+    this.clocks.forEach((clock) => {
+      if (clock.getType() !== ClockType.digital) {
+        return;
+      }
+      (clock as DigitalClockController).reset();
+    });
   }
 
   /**
    * Toggle all lights
    */
   public toggleAllLights(): void {
-    this.clocks.forEach((clock) =>
-      (clock as DigitalClockController).toggleLightState()
-    );
+    this.clocks.forEach((clock) => {
+      if (clock.getType() !== ClockType.digital) {
+        return;
+      }
+      (clock as DigitalClockController).toggleLightState();
+    });
   }
 
   /**
    * Reset all lights
    */
   public resetAllLights(): void {
-    this.clocks.forEach((clock) =>
-      (clock as DigitalClockController).resetLightState()
-    );
+    this.clocks.forEach((clock) => {
+      if (clock.getType() !== ClockType.digital) {
+        return;
+      }
+      (clock as DigitalClockController).resetLightState();
+    });
   }
 }
