@@ -330,16 +330,14 @@ export class ClockView implements Observer {
       return;
     }
 
-    let target = event.target as HTMLElement;
-    target.classList.add('dragged-over');
-    // console.log('Over', (event.target as HTMLElement).id);
-    // if (
-    //   target &&
-    //   target.classList.contains('clock-container') &&
-    //   target.id != this.clockContainer.id
-    // ) {
-    //   this.swapTarget = target;
-    // }
+    // Find the nearest parent with class 'clock-container', including the target itself
+    let clockContainer = (event.target as HTMLElement).closest(
+      '.clock-container'
+    ) as HTMLElement | null;
+
+    if (clockContainer) {
+      clockContainer.classList.add('dragged-over');
+    }
   }
 
   private onDragOver(event: DragEvent): void {
@@ -348,6 +346,7 @@ export class ClockView implements Observer {
 
   private onDragLeave(event: DragEvent): void {
     event.preventDefault();
+
     const draggedElementId = event.dataTransfer?.getData('text/plain');
     // Useless to handle drop if droping dragged clock at same place
     if (
@@ -359,16 +358,17 @@ export class ClockView implements Observer {
       return;
     }
 
-    let target = event.target as HTMLElement;
-    target.classList.remove('dragged-over');
-    // console.log('Over', (event.target as HTMLElement).id);
-    // if (
-    //   target &&
-    //   target.classList.contains('clock-container') &&
-    //   target.id != this.clockContainer.id
-    // ) {
-    //   this.swapTarget = target;
-    // }
+    const currentTarget = event.currentTarget as HTMLElement;
+    const relatedTarget = event.relatedTarget as HTMLElement;
+    // Trigger leave only if it leaves from a non child element
+    if (currentTarget.contains(relatedTarget as HTMLElement)) {
+      return;
+    }
+
+    let clockContainer = currentTarget.closest(
+      '.clock-container'
+    ) as HTMLElement | null;
+    clockContainer.classList.remove('dragged-over');
   }
 
   private onDrop(event: DragEvent): void {
