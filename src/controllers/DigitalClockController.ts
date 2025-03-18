@@ -1,4 +1,5 @@
 import { ClockModel, EditMode } from '../models/ClockModel';
+import { DigitalClockModel } from '../models/DigitalClockModel';
 import { SVGService } from '../services/SvgService';
 import { TimeTickerService } from '../services/TimeTickerService';
 // import { ClockView } from '../views/ClockView';
@@ -12,7 +13,7 @@ export class DigitalClockController extends ClockController {
    * Constructor to initialize the ClockController.
    * @param model The clock model that stores the time data and logic.
    */
-  constructor(model: ClockModel) {
+  constructor(protected model: DigitalClockModel) {
     super(model);
   }
 
@@ -26,17 +27,6 @@ export class DigitalClockController extends ClockController {
     );
     this.model.addObserver(this.view);
     this.view.init();
-  }
-
-  /**
-   * Unsubscribes from the time ticker service when the controller is disposed.
-   */
-  public dispose(): void {
-    TimeTickerService.getInstance().unsubscribe(this.timeTickerListener); // Remove the time ticker listener
-  }
-
-  protected timeTickerListener(): void {
-    this.model.tick();
   }
 
   /**
@@ -96,14 +86,6 @@ export class DigitalClockController extends ClockController {
    */
   public getIsH24Format(): boolean {
     return this.model.getIsH24Format();
-  }
-
-  /**
-   * Gets the time zone offset from the model.
-   * @returns {number} timeZoneOffset in minutes.
-   */
-  public getTimeZoneOffset(): number {
-    return this.model.getTimeZoneOffset();
   }
 
   /**

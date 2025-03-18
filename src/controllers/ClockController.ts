@@ -1,8 +1,6 @@
 import { ClockModel, ClockType, EditMode } from '../models/ClockModel';
-import { SVGService } from '../services/SvgService';
 import { TimeTickerService } from '../services/TimeTickerService';
 import { ClockView } from '../views/ClockView';
-import { DigitalClockController } from './DigitalClockController';
 
 /**
  * Controller for managing the clock's model, view, and interactions with the time ticker service.
@@ -30,9 +28,13 @@ export abstract class ClockController {
   /**
    * Unsubscribes from the time ticker service when the controller is disposed.
    */
-  public abstract dispose(): void;
+  public dispose(): void {
+    TimeTickerService.getInstance().unsubscribe(this.timeTickerListener); // Remove the time ticker listener
+  }
 
-  protected abstract timeTickerListener(): void;
+  protected timeTickerListener(): void {
+    this.model.tick();
+  }
 
   /**
    * Get the current id from the model.

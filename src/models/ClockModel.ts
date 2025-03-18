@@ -66,24 +66,18 @@ export enum ClockType {
  * This class extends Observable to notify observers when the clock state changes.
  */
 export class ClockModel extends Observable {
-  private hours: number;
-  private minutes: number;
-  private seconds: number;
-  private editMode: EditMode = EditMode.idle;
-  private isH24Format: boolean = true;
-  private timeZoneOffset: number;
-
-  private id: string;
+  protected hours: number;
+  protected minutes: number;
+  protected seconds: number;
+  protected editMode: EditMode = EditMode.idle;
+  protected timeZoneOffset: number;
+  protected id: string;
 
   /**
    * Constructor to initialize the clock model.
    * @param lightIsOn (optional) Initial state of the light (true if on, false if off)
    */
-  constructor(
-    private type: ClockType,
-    private lightIsOn: boolean = false,
-    timeZoneOffsets?: number
-  ) {
+  constructor(private type: ClockType, timeZoneOffsets?: number) {
     super();
     this.id = `${Date.now()}-${Math.random().toString().slice(2)}`;
     this.timeZoneOffset =
@@ -167,34 +161,6 @@ export class ClockModel extends Observable {
   }
 
   /**
-   * Gets the current state of the light (on or off).
-   * @returns {boolean} True if the light is on, false if off.
-   */
-  public getLightIsOn(): boolean {
-    return this.lightIsOn;
-  }
-
-  /**
-   * Toggles the light state between on and off.
-   */
-  public toggleLightState(): void {
-    this.lightIsOn = !this.lightIsOn;
-    this.notifyObservers();
-  }
-
-  /**
-   * Set the light state to off.
-   */
-  public resetLightState(): void {
-    // Don't notify observers if value is the same
-    if (!this.lightIsOn) {
-      return;
-    }
-    this.lightIsOn = false;
-    this.notifyObservers();
-  }
-
-  /**
    * Increases the current value (hour, minute, or second) depending on the edit mode.
    * Does nothing if the edit mode is idle.
    */
@@ -209,22 +175,6 @@ export class ClockModel extends Observable {
       this.minutes = (this.minutes + 1) % 60;
     }
 
-    this.notifyObservers();
-  }
-
-  /**
-   * Gets whether the clock is in H24 format.
-   * @returns {boolean} True if in H24 format, false if in AM/PM format.
-   */
-  public getIsH24Format(): boolean {
-    return this.isH24Format;
-  }
-
-  /**
-   * Toggles between H24 and AM/PM time formats.
-   */
-  public toggleTimeFormat(): void {
-    this.isH24Format = !this.isH24Format;
     this.notifyObservers();
   }
 
