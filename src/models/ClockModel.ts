@@ -72,14 +72,18 @@ export class ClockModel extends Observable {
   private editMode: EditMode = EditMode.idle;
   private isH24Format: boolean = true;
   private timeZoneOffset: number;
-  private type: ClockType;
+
   private id: string;
 
   /**
    * Constructor to initialize the clock model.
    * @param lightIsOn (optional) Initial state of the light (true if on, false if off)
    */
-  constructor(private lightIsOn: boolean = false, timeZoneOffsets?: number) {
+  constructor(
+    private type: ClockType,
+    private lightIsOn: boolean = false,
+    timeZoneOffsets?: number
+  ) {
     super();
     this.id = `${Date.now()}-${Math.random().toString().slice(2)}`;
     this.timeZoneOffset =

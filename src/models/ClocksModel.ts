@@ -15,7 +15,7 @@ export class ClocksModel {
    * A new ClockController instance is created, and an event listener is added to remove the clock when the remove button is clicked.
    */
   public addClock(type: ClockType, timeZoneOffset?: number): void {
-    const model: ClockModel = new ClockModel(false, timeZoneOffset);
+    const model: ClockModel = new ClockModel(type, false, timeZoneOffset);
     const newClockController =
       type === ClockType.digital
         ? new DigitalClockController(model)
