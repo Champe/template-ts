@@ -55,14 +55,6 @@ export class AnalogClockView extends ClockView implements Observer {
     this.addClockTicks();
   }
 
-  /**
-   * Updates the view when the observable (model) is updated.
-   * @param observable The observable that has been updated (in this case, the ClockModel).
-   */
-  public update(): void {
-    this.render();
-  }
-
   private computeXPosition(radianAngle: number, offset: number = 0): number {
     return (
       AnalogClockView.SVGClockCenterX +

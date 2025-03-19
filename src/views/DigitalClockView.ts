@@ -55,14 +55,6 @@ export class DigitalClockView extends ClockView implements Observer {
   }
 
   /**
-   * Updates the view when the observable (model) is updated.
-   * @param observable The observable that has been updated (in this case, the ClockModel).
-   */
-  public update(): void {
-    this.render();
-  }
-
-  /**
    * Adds event listeners to the DOM elements.
    */
   protected addListeners(): void {

@@ -143,9 +143,6 @@ export abstract class ClockModel extends Observable {
     return this.editMode;
   }
 
-  /**
-   * Toggles through the edit modes (idle -> hours -> minutes -> seconds -> idle).
-   */
   public abstract toggleEditMode(): void;
 
   /**
