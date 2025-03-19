@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="560" height="512" viewBox="0 0 560 512" xmlns="http://www.w3.org/2000/svg">
     <rect
-        class="analog-clock-edit-spindle"
+        class="analog-clock-button analog-clock-edit-spindle"
         x="510"
         y="229"
         width="20"

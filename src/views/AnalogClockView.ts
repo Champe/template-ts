@@ -155,11 +155,20 @@ export class AnalogClockView extends ClockView implements Observer {
   protected addListeners(): void {
     this.editModeSpindle.addEventListener(
       'click',
-      this.onEditModeListener.bind(this)
+      this.onEditModeClick.bind(this)
     );
     this.editModeButton.addEventListener(
       'click',
-      this.onEditModeListener.bind(this)
+      this.onEditModeClick.bind(this)
+    );
+
+    this.editModeButton.addEventListener(
+      'mouseenter',
+      this.onEditModeMouseEnter.bind(this)
+    );
+    this.editModeButton.addEventListener(
+      'mouseleave',
+      this.onEditModeMouseLeave.bind(this)
     );
   }
 
@@ -209,12 +218,21 @@ export class AnalogClockView extends ClockView implements Observer {
     hand.setAttribute('transform', `matrix(${a} ${b} ${c} ${d} ${e} ${f})`);
   }
 
-  private onEditModeListener(e: MouseEvent): void {
-    const target = e.currentTarget as HTMLElement;
-    const x = parseInt(target.getAttribute('x'));
+  private onEditModeClick(e: MouseEvent): void {
+    const x = parseInt(this.editModeButton.getAttribute('x'));
     const pinTranslationOffset =
       20 * (this.controller.getEditMode() === EditMode.idle ? 1 : -1);
     this.editModeButton.setAttribute('x', `${x + pinTranslationOffset}`);
     this.controller.toggleEditMode();
+  }
+
+  private onEditModeMouseEnter(e: MouseEvent): void {
+    this.editModeButton.setAttribute('fill', 'aqua');
+    this.editModeSpindle.setAttribute('fill', 'aqua');
+  }
+
+  private onEditModeMouseLeave(e: MouseEvent): void {
+    this.editModeButton.setAttribute('fill', 'silver');
+    this.editModeSpindle.setAttribute('fill', 'silver');
   }
 }
