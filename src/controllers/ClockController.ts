@@ -44,6 +44,21 @@ export abstract class ClockController {
   }
 
   /**
+   * Gets the current edit mode from the model.
+   * @returns {EditMode} The current edit mode.
+   */
+  public getEditMode(): EditMode {
+    return this.model.getEditMode();
+  }
+
+  /**
+   * Toggles the edit mode of the clock (e.g., between idle, editing hours, minutes, or seconds).
+   */
+  public toggleEditMode(): void {
+    this.model.toggleEditMode(); // Toggle the edit mode in the model
+  }
+
+  /**
    * Get the clock type.
    */
   public getType(): ClockType {

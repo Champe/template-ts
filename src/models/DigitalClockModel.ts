@@ -13,6 +13,11 @@ export class DigitalClockModel extends ClockModel {
     super(ClockType.digital, timeZoneOffsets);
   }
 
+  public toggleEditMode(): void {
+    this.editMode = (this.editMode + 1) % (EditMode.minutes + 1);
+    this.notifyObservers();
+  }
+
   /**
    * Gets the current state of the light (on or off).
    * @returns {boolean} True if the light is on, false if off.

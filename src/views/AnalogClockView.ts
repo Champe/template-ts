@@ -1,6 +1,7 @@
 import { AnalogClockController } from '../controllers/AnalogClockController';
 import { Observer } from '../core/Observer';
 import { Matrix3x3 } from '../core/math/Matrix3x3';
+import { EditMode } from '../models/ClockModel';
 import { ClockView } from './ClockView';
 
 const computeDegreesRotationAnglePerUnit = (unitMaxvalue: number) =>
@@ -26,6 +27,8 @@ export class AnalogClockView extends ClockView implements Observer {
   private minutesHand: SVGLineElement;
   private secondsHand: SVGLineElement;
   private clockSVGElement: HTMLElement;
+  private editModeSpindle: HTMLElement;
+  private editModeButton: HTMLElement;
 
   /**
    * Constructor to initialize the ClockView.
@@ -41,6 +44,12 @@ export class AnalogClockView extends ClockView implements Observer {
     this.hoursHand = clockSVGElement.querySelector('.hours-hand');
     this.minutesHand = clockSVGElement.querySelector('.minutes-hand');
     this.secondsHand = clockSVGElement.querySelector('.seconds-hand');
+    this.editModeSpindle = clockSVGElement.querySelector(
+      '.analog-clock-edit-spindle'
+    );
+    this.editModeButton = clockSVGElement.querySelector(
+      '.clock-edit-mode-button'
+    );
 
     this.addClockDialHours();
     this.addClockTicks();
@@ -143,7 +152,16 @@ export class AnalogClockView extends ClockView implements Observer {
   /**
    * Adds event listeners to the DOM elements.
    */
-  protected addListeners(): void {}
+  protected addListeners(): void {
+    this.editModeSpindle.addEventListener(
+      'click',
+      this.onEditModeListener.bind(this)
+    );
+    this.editModeButton.addEventListener(
+      'click',
+      this.onEditModeListener.bind(this)
+    );
+  }
 
   /**
    * Renders the clock's display elements based on the current state.
@@ -189,5 +207,14 @@ export class AnalogClockView extends ClockView implements Observer {
     const [a, c, e, b, d, f] = transformMatrix.getValues().flat().slice(0, 6);
 
     hand.setAttribute('transform', `matrix(${a} ${b} ${c} ${d} ${e} ${f})`);
+  }
+
+  private onEditModeListener(e: MouseEvent): void {
+    const target = e.currentTarget as HTMLElement;
+    const x = parseInt(target.getAttribute('x'));
+    const pinTranslationOffset =
+      20 * (this.controller.getEditMode() === EditMode.idle ? 1 : -1);
+    this.editModeButton.setAttribute('x', `${x + pinTranslationOffset}`);
+    this.controller.toggleEditMode();
   }
 }

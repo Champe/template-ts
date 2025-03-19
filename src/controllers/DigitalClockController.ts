@@ -30,21 +30,6 @@ export class DigitalClockController extends ClockController {
   }
 
   /**
-   * Gets the current edit mode from the model.
-   * @returns {EditMode} The current edit mode.
-   */
-  public getEditMode(): EditMode {
-    return this.model.getEditMode();
-  }
-
-  /**
-   * Toggles the edit mode of the clock (e.g., between idle, editing hours, minutes, or seconds).
-   */
-  public toggleEditMode(): void {
-    this.model.toggleEditMode(); // Toggle the edit mode in the model
-  }
-
-  /**
    * Gets the current light state from the model.
    * @returns {boolean} True if the light is on, false if it is off.
    */

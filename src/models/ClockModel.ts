@@ -7,7 +7,6 @@ export enum EditMode {
   idle = 0,
   hours = 1,
   minutes = 2,
-  seconds = 3,
 }
 
 /**
@@ -65,7 +64,7 @@ export enum ClockType {
  * Class representing the clock model.
  * This class extends Observable to notify observers when the clock state changes.
  */
-export class ClockModel extends Observable {
+export abstract class ClockModel extends Observable {
   protected hours: number;
   protected minutes: number;
   protected seconds: number;
@@ -147,10 +146,7 @@ export class ClockModel extends Observable {
   /**
    * Toggles through the edit modes (idle -> hours -> minutes -> seconds -> idle).
    */
-  public toggleEditMode(): void {
-    this.editMode = (this.editMode + 1) % (EditMode.minutes + 1);
-    this.notifyObservers();
-  }
+  public abstract toggleEditMode(): void;
 
   /**
    * Resets the clock to the current system time.
@@ -203,7 +199,7 @@ export class ClockModel extends Observable {
    * Advances the clock by one second, updating hours, minutes, and seconds accordingly.
    * If the time exceeds the limit, it wraps around.
    */
-  public tick(): void {
+  protected incrementTimeByOneSecond(): void {
     this.seconds++;
     if (this.seconds >= 60) {
       this.seconds = 0;
@@ -218,7 +214,13 @@ export class ClockModel extends Observable {
     if (this.hours >= 24) {
       this.hours = 0;
     }
+  }
 
+  /**
+   * Handle a seconde incrementation
+   */
+  public tick(): void {
+    this.incrementTimeByOneSecond();
     this.notifyObservers();
   }
 }

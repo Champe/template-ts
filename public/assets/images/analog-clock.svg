@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+<svg width="560" height="512" viewBox="0 0 560 512" xmlns="http://www.w3.org/2000/svg">
+    <rect
+        class="analog-clock-edit-spindle"
+        x="510"
+        y="229"
+        width="20"
+        height="40"
+        fill="silver"
+        stroke="black"
+        stroke-width="1"
+    />
+
+    <!-- Edit mode -->
+    <rect
+        class="analog-clock-button clock-edit-mode-button"
+        x="510"
+        y="214"
+        width="30"
+        height="70"
+        rx="5"
+        ry="5"
+        fill="silver"
+        stroke="black"
+        stroke-width="1"
+    />
+
     <!-- Clock dial -->
     <circle class="clock-dial" cx="256" cy="256" r="256" fill="white" stroke="purple" stroke-width="2"/>
 
